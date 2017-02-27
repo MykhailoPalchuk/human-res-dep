@@ -23,7 +23,15 @@ namespace Controllers
 
         public List<Dictionary<string,string>> GetAllProjectsInfo()
         {
-            return projectService.GetAllProjectsInfo();
+            var list = projectService.GetAllProjectsInfo();
+            list.Sort(delegate (Dictionary<string, string> d1, Dictionary<string, string> d2)
+            {
+                string a, b;
+                d1.TryGetValue("name", out a);
+                d2.TryGetValue("name", out b);
+                return a.CompareTo(b);
+            });
+            return list;
         }
     }
 }

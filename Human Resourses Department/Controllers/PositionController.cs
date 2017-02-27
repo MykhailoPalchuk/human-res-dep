@@ -36,14 +36,37 @@ namespace Controllers
             return positionService.ChangePayment(positionId, newPayment);
         }
 
-        public List<Dictionary<string, string>> GetAllPositions()
+        public List<Dictionary<string,string>> GetAllPositionsInfoByName()
         {
-            return positionService.GetAllPositionsInfo();
+            var list = positionService.GetAllPositionsInfo();
+            list.Sort(delegate (Dictionary<string, string> d1, Dictionary<string, string> d2)
+            {
+                string a, b;
+                d1.TryGetValue("name", out a);
+                d2.TryGetValue("name", out b);
+                return a.CompareTo(b);
+            });
+            return list;
+        }
+
+        public List<Dictionary<string,string>> GetAllPositionsInfoByPayment()
+        {
+            var list = positionService.GetAllPositionsInfo();
+            list.Sort(delegate (Dictionary<string, string> d1, Dictionary<string, string> d2)
+            {
+                string a, b;
+                d1.TryGetValue("totalPayment", out a);
+                d2.TryGetValue("totalPayment", out b);
+                double payment1 = double.Parse(a);
+                double payment2 = double.Parse(b);
+                return payment1.CompareTo(payment2);
+            });
+            return list;
         }
 
         public List<Dictionary<string, string>> GetTopFivePositions()
         {
-            var list = GetAllPositions();
+            var list = positionService.GetAllPositionsInfo();
             if (list.Count == 0)
                 return null;
             else

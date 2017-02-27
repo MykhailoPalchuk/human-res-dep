@@ -31,9 +31,30 @@ namespace Controllers
             return departmentService.GetDepartmentInfo(departmentId);
         }
 
-        public List<Dictionary<string, string>> GetAllDepartmentsInfo()
+        public List<Dictionary<string, string>> GetAllDepartmentsInfoByName()
         {
-            return departmentService.GetAllDepartmentsInfo();
+            var list = departmentService.GetAllDepartmentsInfo();
+            list.Sort(delegate (Dictionary<string, string> d1, Dictionary<string, string> d2)
+            {
+                string a, b;
+                d1.TryGetValue("name", out a);
+                d2.TryGetValue("name", out b);
+                return a.CompareTo(b);
+            });
+            return list;
+        }
+
+        public List<Dictionary<string,string>> GetAllDepartmentsInfoByNumberOfWorkers()
+        {
+            var list = departmentService.GetAllDepartmentsInfo();
+            list.Sort(delegate (Dictionary<string, string> d1, Dictionary<string, string> d2)
+            {
+                string a, b;
+                d1.TryGetValue("numberOfWorkers", out a);
+                d2.TryGetValue("numberOfWorkers", out b);
+                return a.CompareTo(b);
+            });
+            return list;
         }
 
         public List<Dictionary<string,string>> GetWorkersByPosition(int departmentId)
