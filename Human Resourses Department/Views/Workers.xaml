@@ -1,0 +1,46 @@
+﻿<Window x:Class="Views.Workers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Views"
+        mc:Ignorable="d"
+        Title="Workers" Height="350" Width="525">
+    <Grid RenderTransformOrigin="0.466,0.468">
+        <Menu x:Name="menu" Height="25" VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Add">
+                    <MenuItem Header="Worker"/>
+                    <MenuItem Header="Department"/>
+                    <MenuItem Header="Position" Click="MenuItem_Click_AddPosition"/>
+                    <MenuItem Header="Project" Click="MenuItem_Click_AddProject"/>
+                </MenuItem>
+                <MenuItem Header="Search">
+                    <MenuItem Header="Workers"/>
+                    <MenuItem Header="Departments"/>
+                    <MenuItem Header="Positions"/>
+                    <MenuItem Header="Projects"/>
+                    <MenuItem Header="Global"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Start page" Click="MenuItem_Click_StartPage"/>
+                <MenuItem Header="Sort">
+                    <MenuItem Header="By name"/>
+                    <MenuItem Header="By surname"/>
+                    <MenuItem Header="By payment"/>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <ListBox Name="table" Margin="0 25 120 0" SelectionChanged="table_SelectionChanged">
+            <ListBoxItem>Item1</ListBoxItem>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete"/>
+                    <MenuItem Header="Change"/>
+                    <MenuItem Header="View projects"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+    </Grid>
+</Window>

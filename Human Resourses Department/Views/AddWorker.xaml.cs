@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Human_Resourses_Department
+namespace Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для AddWorker.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddWorker : Window
     {
-        public MainWindow()
+        public AddWorker()
         {
             InitializeComponent();
         }
