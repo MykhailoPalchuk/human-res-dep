@@ -6,10 +6,14 @@
         xmlns:local="clr-namespace:Views"
         mc:Ignorable="d"
         Title="AddPosition" Height="300" Width="300">
-    <Grid>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="130,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="130,87,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="23" Margin="130,149,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-
+    <Grid KeyDown="Grid_KeyDown">
+        <TextBox x:Name="nameTextBox" HorizontalAlignment="Left" Height="30" FontSize="15" Margin="130,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="hoursTextBox" HorizontalAlignment="Left" Height="30" FontSize="15" Margin="130,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="paymentTextBox" HorizontalAlignment="Left" Height="30" Margin="130,150,0,0" FontSize="15" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button Name="OK" Content="OK" FontSize="15" Height="30" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Click="OK_Click"/>
+        <Button Name="Cancel" Content="Cancel" FontSize="15" Height="30" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,212,20" Click="Cancel_Click"/>
+        <Label x:Name="label" Content="Name" HorizontalAlignment="Left" FontSize="15" Margin="30,34,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Hours" HorizontalAlignment="Left" FontSize="15" Margin="30,94,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label2" Content="Payment" HorizontalAlignment="Left" FontSize="15" Margin="30,154,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

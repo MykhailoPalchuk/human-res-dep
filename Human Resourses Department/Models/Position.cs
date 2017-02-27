@@ -4,13 +4,10 @@ namespace Models
 {
     public class Position
     {
-        int id;
-        string name;
-        int hours;
-        double payment;
-        List<Worker> workers;
-
-        public Position() { }
+        public Position()
+        {
+            Workers = new List<Worker>();
+        }
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -20,7 +17,7 @@ namespace Models
         {
             get
             {
-                return hours * payment;
+                return Hours * Payment;
             }
         }
         public List<Worker> Workers { get; set; }

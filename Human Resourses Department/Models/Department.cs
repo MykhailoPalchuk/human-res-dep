@@ -4,14 +4,20 @@ namespace Models
 {
     public class Department
     {
-        int id;
-        string name;
-        List<Worker> workers;
-
-        public Department() { }
+        public Department()
+        {
+            Workers = new List<Worker>();
+        }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public List<Worker> Workers { get; set; }
+        public int NumberOfWorkers
+        {
+            get
+            {
+                return Workers.Count;
+            }
+        }
     }
 }

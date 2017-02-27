@@ -4,6 +4,8 @@ namespace Models
 {
     public class DataContext : DbContext
     {
+        public DataContext() : base(){ }
+
         public DbSet<Worker> Workers { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<Department> Departments { get; set; }

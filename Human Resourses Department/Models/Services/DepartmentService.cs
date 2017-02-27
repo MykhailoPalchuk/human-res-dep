@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace Models.Services
 {
@@ -20,6 +21,21 @@ namespace Models.Services
             }
             else
                 return false;
+        }
+
+        public bool DeleteDepartment(int id)
+        {
+            using (var db = new DataContext())
+            {
+                if (db.Departments.Find(id) != null)
+                {
+                    db.Departments.Remove(db.Departments.Find(id));
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
         }
 
         public Department FindDepartment(string name)
@@ -45,15 +61,25 @@ namespace Models.Services
 
         public Dictionary<string, string> GetDepartmentInfo(int id)
         {
-            if (FindDepartment(id) != null)
+            using (var db = new DataContext())
             {
-                Dictionary<string, string> department = new Dictionary<string, string>();
-                department.Add("id", id.ToString());
-                department.Add("name", FindDepartment(id).Name);
-                return department;
+                var list = db.Departments.Include(d => d.Workers);
+                var query = from dep in list
+                            where dep.Id == id
+                            select dep;
+                var depart = query.FirstOrDefault();
+                if (depart != null)
+                {
+                    Dictionary<string, string> department = new Dictionary<string, string>();
+
+                    department.Add("id", id.ToString());
+                    department.Add("name", depart.Name);
+                    department.Add("numberOfWorkers", depart.Workers.Count.ToString());
+                    return department;
+                }
+                else
+                    return null;
             }
-            else
-                return null;
         }
 
         public List<Dictionary<string,string>> GetAllDepartmentsInfo()
@@ -73,7 +99,10 @@ namespace Models.Services
         {
             using (var db = new DataContext())
             {
-                var department = db.Departments.Find(departmentId);
+                var query = from dep in db.Departments.Include(d => d.Workers)
+                            where dep.Id == departmentId
+                            select dep;
+                var department = query.FirstOrDefault();
                 if(department != null)
                 {
                     List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();

@@ -4,15 +4,6 @@ namespace Models
 {
     public class Worker
     {
-        int id;
-        string name;
-        string surname;
-        string accountNumber;
-        Department department;
-        Position position;
-        int experience;
-        List<Project> projects;
-
         public Worker() { }
         
         public int Id { get; set; }
@@ -28,7 +19,7 @@ namespace Models
             get
             {
                 int cost = 0;
-                foreach(var proj in projects)
+                foreach(var proj in Projects)
                 {
                     cost += proj.Cost;
                 }

@@ -35,6 +35,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Human Resourses Department\Human Resourses Department\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\Human Resourses Department\Human Resourses Department\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,6 +62,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddDepartment.xaml.cs">
+      <DependentUpon>AddDepartment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddPosition.xaml.cs">
       <DependentUpon>AddPosition.xaml</DependentUpon>
     </Compile>
@@ -64,9 +74,17 @@
     <Compile Include="AddWorker.xaml.cs">
       <DependentUpon>AddWorker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Workers.xaml.cs">
-      <DependentUpon>Workers.xaml</DependentUpon>
+    <Compile Include="Tables\DepartmentTable.cs" />
+    <Compile Include="Tables\PositionTable.cs" />
+    <Compile Include="Tables\ProjectTable.cs" />
+    <Compile Include="Tables\WorkerTable.cs" />
+    <Compile Include="TableWindow.xaml.cs">
+      <DependentUpon>TableWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddDepartment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddPosition.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,7 +109,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Workers.xaml">
+    <Page Include="TableWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,7 +142,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Controllers\Controllers.csproj">
+    <ProjectReference Include="..\..\..\Human Resourses Department\Human Resourses Department\Controllers\Controllers.csproj">
       <Project>{5066bb3e-efd6-4263-9c2e-faca86c8b973}</Project>
       <Name>Controllers</Name>
     </ProjectReference>

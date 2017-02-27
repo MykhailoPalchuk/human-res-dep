@@ -14,9 +14,24 @@ namespace Models.Services
                     if (p.Name.Equals(name))
                         return false;
                 }
-                db.Projects.Add(new Project { Name = name, Cost = cost });
+                db.Projects.Add(new Project { Name = name, Cost = cost, Workers = new List<Worker>() });
                 db.SaveChanges();
                 return true;
+            }
+        }
+
+        public bool DeleteProject(int id)
+        {
+            using (var db = new DataContext())
+            {
+                if (db.Projects.Find(id) != null)
+                {
+                    db.Projects.Remove(db.Projects.Find(id));
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
             }
         }
 
@@ -31,6 +46,7 @@ namespace Models.Services
                     proj.Add("id", p.Id.ToString());
                     proj.Add("name", p.Name);
                     proj.Add("cost", p.Cost.ToString());
+                    proj.Add("numberOfWorkers", p.NumberOfWorkers.ToString());
                     return proj;
                 }
                 else

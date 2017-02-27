@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,37 +29,52 @@ namespace Views
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-                if (nameTextBox.Text.Equals("") || costTextBox.Text.Equals(""))
+            if (nameTextBox.Text.Equals("") || costTextBox.Text.Equals(""))
+            {
+                var result = MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (result == MessageBoxResult.OK)
                 {
-                    var result = MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    nameTextBox.BorderBrush = Brushes.Red;
+                    costTextBox.BorderBrush = Brushes.Red;
+                }
+            }
+            else
+            {
+                try
+                {
+                    int cost = int.Parse(costTextBox.Text);
+                    ProjectController projectController = new ProjectController();
+                    projectController.AddProject(nameTextBox.Text, cost);
+                    MessageBox.Show("Project added successfully!", "Success");
+                    Close();
+                }
+                catch 
+                {
+                    var result = MessageBox.Show("Enter correct cost of new project", "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                     if (result == MessageBoxResult.OK)
                     {
-                        nameTextBox.BorderBrush = Brushes.Red;
                         costTextBox.BorderBrush = Brushes.Red;
                     }
                 }
-                else
-                {
-                    ProjectController projectController = new ProjectController();
-                    try
-                    {
-                        int cost = int.Parse(costTextBox.Text);
-                        projectController.AddProject(nameTextBox.Text, cost);
-                    }
-                    catch (Exception ex)
-                    {
-                        var result = MessageBox.Show("Enter correct cost of new project\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        if (result == MessageBoxResult.OK)
-                        {
-                            costTextBox.BorderBrush = Brushes.Red;
-                        }
-                    }
-                }
+            }
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            Owner = null;
+        }
+
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                OK_Click(new object(), new RoutedEventArgs());
         }
     }
 }

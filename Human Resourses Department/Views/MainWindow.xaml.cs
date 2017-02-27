@@ -24,25 +24,29 @@ namespace Views
         public MainWindow()
         {
             InitializeComponent();
-
             ResizeMode = ResizeMode.CanMinimize;
         }
 
         private void Workers_Click(object sender, RoutedEventArgs e)
         {
-            Workers workersWindow = new Workers();
+            TableWindow workersWindow = new TableWindow("workers");
             workersWindow.Show();
             Close();
         }
 
         private void Departments_Click(object sender, RoutedEventArgs e)
         {
-
+            TableWindow workersWindow = new TableWindow("departments");
+            workersWindow.Show();
+            Close();
         }
+
 
         private void Positions_Click(object sender, RoutedEventArgs e)
         {
-
+            TableWindow workersWindow = new TableWindow("positions");
+            workersWindow.Show();
+            Close();
         }
     }
 }

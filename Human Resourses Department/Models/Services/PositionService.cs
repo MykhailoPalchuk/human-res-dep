@@ -22,6 +22,21 @@ namespace Models.Services
                 return false;
         }
 
+        public bool DeletePosition(int id)
+        {
+            using (var db = new DataContext())
+            {
+                if (db.Positions.Find(id) != null)
+                {
+                    db.Positions.Remove(db.Positions.Find(id));
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+        }
+
         public Position FindPosition(string name)
         {
             using (var db = new DataContext())

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace Models.Services
 {
@@ -13,38 +14,25 @@ namespace Models.Services
             using (var db = new DataContext())
             {
                 //check if such worker exists
-                foreach(var w in db.Workers.ToList())
-                {
-                    if (w.Name.Equals(name) && w.Surname.Equals(surname))
-                        return false;
-                }
+                var query = from w in db.Workers
+                            where w.Name.Equals(name)
+                            && w.Surname.Equals(surname)
+                            select w;
+                if (query.FirstOrDefault() != null)
+                    return false;
+
                 //find department
-                Department dep = null;
-                foreach(var d in db.Departments.ToList())
-                {
-                    if (d.Name.Equals(departmentName))
-                        dep = d;
-                }
+                Department dep = db.Departments.Where(p => p.Name.Equals(departmentName)).FirstOrDefault();
                 if (dep == null)
-                    return false;           //no such department
+                    return false;          //no such department
 
                 //find position
-                Position pos = null;
-                foreach(var p in db.Positions.ToList())
-                {
-                    if (p.Name.Equals(positionName))
-                        pos = p;
-                }
+                Position pos = db.Positions.Where(p => p.Name.Equals(positionName)).FirstOrDefault();
                 if (pos == null)
                     return false;           //no such position
 
                 //find project
-                Project proj = null;
-                foreach(var p in db.Projects.ToList())
-                {
-                    if (p.Name.Equals(projectName))
-                        proj = p;
-                }
+                Project proj = db.Projects.Where(p => p.Name.Equals(projectName)).FirstOrDefault();
                 if (proj == null)
                     return false;           //no such project
 
@@ -59,14 +47,31 @@ namespace Models.Services
                     Experience = experience,
                     Projects = new List<Project>()
                 });
+                db.SaveChanges();
+
                 //add project to a new worker
-                foreach (var w in db.Workers.ToList())
-                {
-                    if (w.Name.Equals(name) && w.Surname.Equals(surname))
-                        w.Projects.Add(proj);
-                }
+                var queryW = from w in db.Workers
+                            where w.Name.Equals(name)
+                            && w.Surname.Equals(surname)
+                            select w;
+                queryW.First().Projects.Add(proj);
                 db.SaveChanges();
                 return true;
+            }
+        }
+
+        public bool DeleteWorker(int id)
+        {
+            using (var db = new DataContext())
+            {
+                if (db.Workers.Find(id) != null)
+                {
+                    db.Workers.Remove(db.Workers.Find(id));
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
             }
         }
 
@@ -75,7 +80,8 @@ namespace Models.Services
             using (var db = new DataContext())
             {
                 Dictionary<string, string> worker = new Dictionary<string, string>();
-                var w = db.Workers.Find(id);
+                var list = db.Workers.Include(i => i.Department).Include(i => i.Position).Include(i => i.Projects);
+                Worker w = list.Where(p => p.Id == id).FirstOrDefault();
                 if (w != null)
                 {
                     worker.Add("id", w.Id.ToString());
