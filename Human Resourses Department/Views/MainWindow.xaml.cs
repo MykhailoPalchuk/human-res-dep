@@ -17,7 +17,7 @@ using Controllers;
 namespace Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Logic of interaction for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -27,6 +27,7 @@ namespace Views
             ResizeMode = ResizeMode.CanMinimize;
         }
 
+        //Open table window with workers
         private void Workers_Click(object sender, RoutedEventArgs e)
         {
             TableWindow workersWindow = new TableWindow("workers");
@@ -34,6 +35,7 @@ namespace Views
             Close();
         }
 
+        //Open table window with departents
         private void Departments_Click(object sender, RoutedEventArgs e)
         {
             TableWindow workersWindow = new TableWindow("departments");
@@ -41,7 +43,7 @@ namespace Views
             Close();
         }
 
-
+        //Open table window with positions
         private void Positions_Click(object sender, RoutedEventArgs e)
         {
             TableWindow workersWindow = new TableWindow("positions");

@@ -17,7 +17,7 @@ using Views.Tables;
 namespace Views
 {
     /// <summary>
-    /// Логика взаимодействия для Workers.xaml
+    /// Logic of interaction for TableWindow.xaml
     /// </summary>
     public partial class TableWindow : Window
     {
@@ -46,6 +46,7 @@ namespace Views
 
         private void dataGrid_Loaded(object sender, RoutedEventArgs e)
         {
+            //create elements list
             if (choice.Equals("workers"))
             {
                 List<WorkerTable> list = new List<WorkerTable>();
@@ -79,6 +80,10 @@ namespace Views
                     list.Add(new DepartmentTable(id, name, numberOfWorkers));
                 }
                 dataGrid.ItemsSource = list;
+
+                //change menu
+                menuSortBySecondProperty.Header = "By number of workers";
+                menuSortByThirdProperty.Visibility = Visibility.Collapsed;
             }
             else if (choice.Equals("positions"))
             {
@@ -95,9 +100,14 @@ namespace Views
                     list.Add(new PositionTable(id, name, hours, payment, totalPayment));
                 }
                 dataGrid.ItemsSource = list;
+
+                //change menu
+                menuSortBySecondProperty.Header = "By payment";
+                menuSortByThirdProperty.Visibility = Visibility.Collapsed;
             }
             else
             {
+                //something impossible but should be checked
                 MessageBox.Show("Something went wrong", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -130,11 +140,13 @@ namespace Views
             worker.Show();
         }
 
+        //Reload table after adding new elements to database
         public void RefreshTable()
         {
             dataGrid_Loaded(new object(), new RoutedEventArgs());
         }
 
+        //Default sorting, so we just reload dataGrid
         private void MenuItem_Click_SortByName(object sender, RoutedEventArgs e)
         {
             dataGrid_Loaded(new object(), new RoutedEventArgs());
@@ -144,6 +156,7 @@ namespace Views
         {
             if (choice.Equals("workers"))
             {
+                //Sort by surname
                 List<WorkerTable> list = new List<WorkerTable>();
                 string id, name, surname, account, dep, pos, exp, lastProject, projectsCost;
                 foreach (var w in workerController.GetWorkersBySurname())
@@ -164,6 +177,7 @@ namespace Views
             }
             else if (choice.Equals("departments"))
             {
+                //Sort by number of workers
                 List<DepartmentTable> list = new List<DepartmentTable>();
                 string id, name, numberOfWorkers;
                 foreach (var dep in departmentController.GetAllDepartmentsInfoByNumberOfWorkers())
@@ -178,6 +192,7 @@ namespace Views
             }
             else if (choice.Equals("positions"))
             {
+                //Sort by payment
                 List<PositionTable> list = new List<PositionTable>();
                 string id, name, hours, payment, totalPayment;
                 foreach (var pos in positionController.GetAllPositionsInfoByPayment())
@@ -194,6 +209,7 @@ namespace Views
             }
             else
             {
+                //something impossible but should be checked
                 MessageBox.Show("Something went wrong", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -202,6 +218,7 @@ namespace Views
         {
             if (choice.Equals("workers"))
             {
+                //Sort by payment
                 List<WorkerTable> list = new List<WorkerTable>();
                 string id, name, surname, account, dep, pos, exp, lastProject, projectsCost;
                 foreach (var w in workerController.GetWorkersByPayment())
@@ -222,6 +239,7 @@ namespace Views
             }
             else
             {
+                //something impossible but should be checked
                 MessageBox.Show("Something went wrong", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

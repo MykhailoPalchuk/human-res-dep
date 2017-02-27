@@ -16,20 +16,23 @@ using Controllers;
 
 namespace Views
 {
+    /// <summary>
+    /// Logic of interaction for AddWorker.xaml
+    /// </summary>
     public partial class AddWorker : Window
     {
-        WorkerPrototype workerPrototype;
-
         public AddWorker()
         {
             InitializeComponent();
             ResizeMode = ResizeMode.NoResize;
-            workerPrototype = new WorkerPrototype();
+
+            //Form items list for each combobox
             FormDepartmentsList();
             FormPositionsList();
             FormProjectsList();
         }
 
+        //Form items list for department combobox
         private void FormDepartmentsList()
         {
             DepartmentController departmentController = new DepartmentController();
@@ -41,6 +44,7 @@ namespace Views
             }
         }
 
+        //Form items list for position combobox
         private void FormPositionsList()
         {
             PositionController positionController = new PositionController();
@@ -52,6 +56,7 @@ namespace Views
             }
         }
 
+        //Form items list for project combobox
         private void FormProjectsList()
         {
             comboBoxProject.Items.Add("New project");
@@ -64,20 +69,11 @@ namespace Views
             }
         }
 
-        /*private void comboBoxDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox comboBox = (ComboBox)sender;
-            string selectedItem = comboBox.SelectedItem.ToString();
-            workerPrototype.DepartmentName = selectedItem;
-        }
-
-        private void comboBoxPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox comboBox = (ComboBox)sender;
-            string selectedItem = comboBox.SelectedItem.ToString();
-            workerPrototype.PositionName = selectedItem;
-        }*/
-
+        /*
+         * Logic for choosing new project or existing
+         * hide textboxes "name" and "cost" when existing project is choosen
+         * and show them when "new project" is choosen
+         */
         private void comboBoxProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -116,6 +112,15 @@ namespace Views
             }
         }
 
+        /*
+         * Logic for OK button:
+         * check input
+         * highlight wrong input
+         * get correct input
+         * create new project in database
+         * show message
+         * close
+         */
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -212,32 +217,30 @@ namespace Views
             }
         }
 
+        /*
+         * Logic for Cancel button
+         */
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /*
+         * Avoid bug with minimizing owner window
+         */
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
             Owner = null;
         }
 
+        /*
+         * Set enter button as OK button click
+         */
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 OK_Click(new object(), new RoutedEventArgs());
         }
-    }
-
-    class WorkerPrototype
-    {
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string AccountNumber { get; set; }
-        public string DepartmentName { get; set; }
-        public string PositionName { get; set; }
-        public int Experience { get; set; }
-        public string ProjectName { get; set; }
     }
 }

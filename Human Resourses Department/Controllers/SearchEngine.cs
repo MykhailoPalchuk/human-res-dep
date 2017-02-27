@@ -9,6 +9,10 @@ namespace Controllers
 {
     public class SearchEngine
     {
+        /// <summary>
+        /// Contains methods for searching key words in database
+        /// </summary>
+        
         static DepartmentService departmentService = new DepartmentService();
         static PositionService positionService = new PositionService();
         static ProjectService projectService = new ProjectService();
@@ -68,6 +72,7 @@ namespace Controllers
             return positions;
         }
 
+        //Find concrete worker
         public Dictionary<string, string> SearchForWorker(string name, string surname)
         {
             Dictionary<string, string> worker = null;

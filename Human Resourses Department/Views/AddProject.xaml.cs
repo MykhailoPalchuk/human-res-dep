@@ -17,7 +17,7 @@ using Controllers;
 namespace Views
 {
     /// <summary>
-    /// Логика взаимодействия для AddProject.xaml
+    /// Logic of interaction for AddProject.xaml
     /// </summary>
     public partial class AddProject : Window
     {
@@ -27,6 +27,15 @@ namespace Views
             ResizeMode = ResizeMode.NoResize;
         }
 
+        /*
+         * Logic for OK button:
+         * check input
+         * highlight wrong input
+         * get correct input
+         * create new project in database
+         * show message
+         * close
+         */
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             if (nameTextBox.Text.Equals("") || costTextBox.Text.Equals(""))
@@ -60,17 +69,26 @@ namespace Views
             }
         }
 
+        /*
+         * Logic for Cancel button
+         */
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /*
+         * Avoid bug with minimizing owner window
+         */
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
             Owner = null;
         }
 
+        /*
+         * Set enter button as OK button click
+         */
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
