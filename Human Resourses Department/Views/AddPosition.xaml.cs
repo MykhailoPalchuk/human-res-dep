@@ -63,7 +63,7 @@ namespace Views
                     positionController.AddPosition(nameTextBox.Text, hours, payment);
                     MessageBox.Show("Position added successfully!", "Success");
                     TableWindow parent = Owner as TableWindow;
-                    parent.RefreshTable();
+                    parent.RefreshTable(sender, e);
                     Close();
                 }
                 catch

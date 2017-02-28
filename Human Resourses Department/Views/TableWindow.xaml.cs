@@ -27,21 +27,14 @@ namespace Views
         ProjectController projectController;
         string choice;
 
-        public TableWindow(string choice)
+        public TableWindow()
         {
             workerController = new WorkerController();
             departmentController = new DepartmentController();
             positionController = new PositionController();
             projectController = new ProjectController();
-            this.choice = choice;
+            choice = "workers";
             InitializeComponent();
-        }
-
-        private void MenuItem_Click_StartPage(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            Close();
         }
 
         private void dataGrid_Loaded(object sender, RoutedEventArgs e)
@@ -66,6 +59,9 @@ namespace Views
                     list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
                 }
                 dataGrid.ItemsSource = list;
+
+                //Create context menu
+                CreateWorkerMenu(sender, e);
             }
             else if (choice.Equals("departments"))
             {
@@ -80,6 +76,9 @@ namespace Views
                     list.Add(new DepartmentTable(id, name, numberOfWorkers));
                 }
                 dataGrid.ItemsSource = list;
+
+                //Create context menu
+                CreateDepartmentMenu(sender, e);
 
                 //change menu
                 menuSortBySecondProperty.Header = "By number of workers";
@@ -100,6 +99,9 @@ namespace Views
                     list.Add(new PositionTable(id, name, hours, payment, totalPayment));
                 }
                 dataGrid.ItemsSource = list;
+
+                //Create context menu
+                CreatePositionMenu(sender, e);
 
                 //change menu
                 menuSortBySecondProperty.Header = "By payment";
@@ -141,9 +143,9 @@ namespace Views
         }
 
         //Reload table after adding new elements to database
-        public void RefreshTable()
+        public void RefreshTable(object sender, RoutedEventArgs e)
         {
-            dataGrid_Loaded(new object(), new RoutedEventArgs());
+            dataGrid_Loaded(sender, e);
         }
 
         //Default sorting, so we just reload dataGrid
@@ -242,6 +244,159 @@ namespace Views
                 //something impossible but should be checked
                 MessageBox.Show("Something went wrong", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        //Build context menu for workers
+        private void CreateWorkerMenu(object sender, RoutedEventArgs e)
+        {
+            //avoid NullReferenceException
+            DataGrid dataG;
+            if (dataGrid.ContextMenu == null)
+                dataG = sender as DataGrid;
+            else
+                dataG = dataGrid;
+            dataG.ContextMenu.Items.Clear();
+            var item = new MenuItem();
+            item.Header = "Change data";
+            item.Click += WorkerChangeData;
+            dataG.ContextMenu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Delete";
+            item.Click += WorkerDelete;
+            dataG.ContextMenu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Add project";
+            item.Click += WorkerAddProject;
+            dataG.ContextMenu.Items.Add(item);
+        }
+
+        //Build context menu for departments
+        private void CreateDepartmentMenu(object sender, RoutedEventArgs e)
+        {
+            //Avoid NullReferenceException
+            DataGrid dataG;
+            if (dataGrid.ContextMenu == null)
+                dataG = sender as DataGrid;
+            else
+                dataG = dataGrid;
+            dataG.ContextMenu.Items.Clear();
+            var item = new MenuItem();
+            item.Header = "Change data";
+            item.Click += DepartmentChangeData;
+            dataG.ContextMenu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Delete";
+            item.Click += DepartmentDelete;
+            dataG.ContextMenu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Show workers by position";
+            item.Click += DepartmentShowWorkersByPosition;
+            dataG.ContextMenu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Show workers by projects";
+            item.Click += DepartmentShowWorkersByProjects;
+            dataG.ContextMenu.Items.Add(item);
+        }
+
+        //Build context menu for positions
+        private void CreatePositionMenu(object sender, RoutedEventArgs e)
+        {
+            //Avoid NullReferenceException
+            DataGrid dataG;
+            if (dataGrid.ContextMenu == null)
+                dataG = sender as DataGrid;
+            else
+                dataG = dataGrid;
+            dataG.ContextMenu.Items.Clear();
+            var item = new MenuItem();
+            item.Header = "Change data";
+            item.Click += PositionChangeData;
+            dataG.ContextMenu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Delete";
+            item.Click += PositionDelete;
+            dataG.ContextMenu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Show top workers";
+            item.Click += PositionShowWorkers;
+            dataG.ContextMenu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Show top positions";
+            item.Click += PositionShowTop;
+            dataG.ContextMenu.Items.Add(item);
+        }
+
+        private void WorkerChangeData(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void WorkerDelete(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void WorkerAddProject(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DepartmentChangeData(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DepartmentDelete(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DepartmentShowWorkersByPosition(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void DepartmentShowWorkersByProjects(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PositionChangeData(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PositionDelete(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PositionShowWorkers(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PositionShowTop(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowWorkers(object sender, RoutedEventArgs e)
+        {
+            choice = "workers";
+            RefreshTable(sender, e);
+        }
+
+        private void ShowDepartments(object sender, RoutedEventArgs e)
+        {
+            choice = "departments";
+            RefreshTable(new object(), new RoutedEventArgs());
+        }
+
+        private void ShowPositions(object sender, RoutedEventArgs e)
+        {
+            choice = "positions";
+            RefreshTable(sender, e);
         }
     }
 }

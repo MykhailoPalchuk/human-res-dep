@@ -24,7 +24,11 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Start page" Click="MenuItem_Click_StartPage"/>
+                <MenuItem Header="Show">
+                    <MenuItem Header="Workers" Click="ShowWorkers"/>
+                    <MenuItem Header="Departments" Click="ShowDepartments"/>
+                    <MenuItem Header="Positions" Click="ShowPositions"/>
+                </MenuItem>
                 <MenuItem Header="Sort">
                     <MenuItem Header="By name" Click="MenuItem_Click_SortByName"/>
                     <MenuItem Name="menuSortBySecondProperty" Header="By surname" Click="menuSortBySecondProperty_Click"/>
@@ -32,6 +36,12 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <DataGrid x:Name="dataGrid" Loaded="dataGrid_Loaded" IsReadOnly="True" AutoGenerateColumns="True" Margin="10,25,0,0" CanUserAddRows="False" CanUserDeleteRows="False"/>
+        <DataGrid x:Name="dataGrid" Loaded="dataGrid_Loaded" IsReadOnly="True" AutoGenerateColumns="True" Margin="10,25,0,0" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                        
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
     </Grid>
 </Window>

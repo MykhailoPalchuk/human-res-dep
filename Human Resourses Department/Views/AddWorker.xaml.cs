@@ -199,14 +199,14 @@ namespace Views
                     {
                         MessageBox.Show("Worker added successfully with a new project", "Success");
                         TableWindow parent = Owner as TableWindow;
-                        parent.RefreshTable();
+                        parent.RefreshTable(sender, e);
                         Close();
                     }
                     else if(workerAdded && !projectAdded)
                     {
                         MessageBox.Show("Worker added successfully", "Success");
                         TableWindow parent = Owner as TableWindow;
-                        parent.RefreshTable();
+                        parent.RefreshTable(sender, e);
                         Close();
                     }
                     else

@@ -49,7 +49,7 @@ namespace Views
                 departmentController.AddDepartment(nameTextBox.Text);
                 MessageBox.Show("Department added successfully!", "Success");
                 TableWindow parent = Owner as TableWindow;
-                parent.RefreshTable();
+                parent.RefreshTable(sender, e);
                 Close();
             }
         }
