@@ -347,11 +347,23 @@ namespace Views
                 RefreshTable(sender, e);
             }
         }
-
-        //must be finished
+        
         private void WorkerAddProject(object sender, RoutedEventArgs e)
         {
-
+            var res = MessageBox.Show("Create new project?", "Add project", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            WorkerTable worker = dataGrid.SelectedItem as WorkerTable;
+            if (res == MessageBoxResult.Yes)
+            {
+                var addProjectWindow = new AddProject(int.Parse(worker.Id));
+                addProjectWindow.Owner = this;
+                addProjectWindow.Show();
+            }
+            else if(res == MessageBoxResult.No)
+            {
+                var chooseProject = new ChooseProject(worker);
+                chooseProject.Owner = this;
+                chooseProject.Show();
+            }
         }
 
         private void DepartmentChangeData(object sender, RoutedEventArgs e)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Views.Tables
 {
-    class DepartmentTable
+    public class DepartmentTable
     {
         public string Id { get; set; }
         public string Name { get; set; }

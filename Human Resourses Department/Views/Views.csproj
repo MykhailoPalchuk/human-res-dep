@@ -78,6 +78,9 @@
     <Compile Include="AddWorker.xaml.cs">
       <DependentUpon>AddWorker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChooseProject.xaml.cs">
+      <DependentUpon>ChooseProject.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tables\DepartmentTable.cs" />
     <Compile Include="Tables\PositionTable.cs" />
     <Compile Include="Tables\ProjectTable.cs" />
@@ -105,6 +108,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ChooseProject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TableWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

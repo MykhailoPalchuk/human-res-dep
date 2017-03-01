@@ -246,7 +246,11 @@ namespace Models.Services
                     return false;
                 else
                 {
-                    Worker w = db.Workers.Find(workerId);
+                    var list = db.Workers.Include(p => p.Projects);
+                    var query = from worker in list
+                                where worker.Id == workerId
+                                select worker;
+                    Worker w = query.FirstOrDefault();
                     if (w == null)
                         return false;
                     else
