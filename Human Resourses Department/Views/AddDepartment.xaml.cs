@@ -21,10 +21,23 @@ namespace Views
     /// </summary>
     public partial class AddDepartment : Window
     {
-        public AddDepartment()
+        private bool change;
+        private int id;
+
+        public AddDepartment(bool change, int id)
         {
+            this.change = change;
+            this.id = id;
             InitializeComponent();
             ResizeMode = ResizeMode.NoResize;
+            if (change)
+            {
+                DepartmentController dc = new DepartmentController();
+                var dep = dc.GetDepartmentInfo(id);
+                string name;
+                dep.TryGetValue("name", out name);
+                nameTextBox.Text = name;
+            }
         }
 
         /*
@@ -46,8 +59,16 @@ namespace Views
             else
             {
                 DepartmentController departmentController = new DepartmentController();
-                departmentController.AddDepartment(nameTextBox.Text);
-                MessageBox.Show("Department added successfully!", "Success");
+                if (change)
+                {
+                    departmentController.ChangeName(id, nameTextBox.Text);
+                    MessageBox.Show("Department data changed successfully!", "Success");
+                }
+                else
+                {
+                    departmentController.AddDepartment(nameTextBox.Text);
+                    MessageBox.Show("Department added successfully!", "Success");
+                }
                 TableWindow parent = Owner as TableWindow;
                 parent.RefreshTable(sender, e);
                 Close();

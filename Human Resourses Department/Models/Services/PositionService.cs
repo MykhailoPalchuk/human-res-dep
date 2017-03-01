@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace Models.Services
 {
@@ -93,10 +94,16 @@ namespace Models.Services
         {
             using (var db = new DataContext())
             {
-                if (db.Positions.Find(positionId) != null)
+                var positions = db.Positions.Include(d => d.Workers);
+                var query = from pos in positions
+                            where pos.Id == positionId
+                            select pos;
+                var position = query.FirstOrDefault();
+                if (position != null)
                 {
                     var list = new List<Dictionary<string, string>>();
-                    foreach (var w in db.Positions.Find(positionId).Workers)
+                    if(position != null)
+                    foreach (var w in position.Workers)
                     {
                         list.Add(workerService.GetWorkerInfo(w.Id));
                     }
