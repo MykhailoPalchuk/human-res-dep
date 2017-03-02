@@ -325,11 +325,13 @@ namespace Views
             item.Click += PositionShowTop;
             dataG.ContextMenu.Items.Add(item);
         }
-
-        //must be finished
+        
         private void WorkerChangeData(object sender, RoutedEventArgs e)
         {
-            
+            var worker = dataGrid.SelectedItem as WorkerTable;
+            var workerWindow = new AddWorker(int.Parse(worker.Id));
+            workerWindow.Owner = this;
+            workerWindow.Show();
         }
 
         private void WorkerDelete(object sender, RoutedEventArgs e)
@@ -448,11 +450,13 @@ namespace Views
                 dataGrid.ItemsSource = list;
             }
         }
-
-        //must be finished
+        
         private void PositionChangeData(object sender, RoutedEventArgs e)
         {
-
+            var position = dataGrid.SelectedItem as PositionTable;
+            var positionWindow = new AddPosition(int.Parse(position.Id));
+            positionWindow.Owner = this;
+            positionWindow.Show();
         }
 
         private void PositionDelete(object sender, RoutedEventArgs e)

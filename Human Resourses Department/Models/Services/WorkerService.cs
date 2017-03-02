@@ -251,6 +251,11 @@ namespace Models.Services
                                 where worker.Id == workerId
                                 select worker;
                     Worker w = query.FirstOrDefault();
+                    foreach(var p in w.Projects)
+                    {
+                        if (p.Name.Equals(proj.Name))
+                            return false;
+                    }
                     if (w == null)
                         return false;
                     else

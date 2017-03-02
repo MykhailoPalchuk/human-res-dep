@@ -36,6 +36,11 @@ namespace Controllers
             return positionService.ChangePayment(positionId, newPayment);
         }
 
+        public Dictionary<string,string> GetPositionInfo(int positionId)
+        {
+            return positionService.GetPositionInfo(positionId);
+        }
+
         public List<Dictionary<string,string>> GetAllPositionsInfoByName()
         {
             var list = positionService.GetAllPositionsInfo();
