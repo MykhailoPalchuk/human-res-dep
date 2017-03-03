@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Controllers;
 using Views.Tables;
 
@@ -42,6 +32,7 @@ namespace Views
             //create elements list
             if (choice.Equals("workers"))
             {
+                Title = "Workers";
                 List<WorkerTable> list = new List<WorkerTable>();
                 string id, name, surname, account, dep, pos, exp, lastProject, projectsCost;
                 foreach (var w in workerController.GetWorkersByName())
@@ -65,6 +56,7 @@ namespace Views
             }
             else if (choice.Equals("departments"))
             {
+                Title = "Departments";
                 List<DepartmentTable> list = new List<DepartmentTable>();
                 string id, name, numberOfWorkers;
                 foreach(var dep in departmentController.GetAllDepartmentsInfoByName())
@@ -86,6 +78,7 @@ namespace Views
             }
             else if (choice.Equals("positions"))
             {
+                Title = "Positions";
                 List<PositionTable> list = new List<PositionTable>();
                 string id, name, hours, payment, totalPayment;
                 foreach(var pos in positionController.GetAllPositionsInfoByName())
