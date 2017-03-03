@@ -16,11 +16,11 @@
                     <MenuItem Header="Project" Click="MenuItem_Click_AddProject"/>
                 </MenuItem>
                 <MenuItem Header="Search">
-                    <MenuItem Header="Workers"/>
-                    <MenuItem Header="Departments"/>
-                    <MenuItem Header="Positions"/>
-                    <MenuItem Header="Projects"/>
-                    <MenuItem Header="Global"/>
+                    <MenuItem Header="Workers" Click="SearchWorkers"/>
+                    <MenuItem Header="Departments" Click="SearchDepartments"/>
+                    <MenuItem Header="Positions" Click="SearchPositions"/>
+                    <MenuItem Header="Projects" Click="SearchProjects"/>
+                    <MenuItem Header="Global" Click="SearchGlobal"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="View">

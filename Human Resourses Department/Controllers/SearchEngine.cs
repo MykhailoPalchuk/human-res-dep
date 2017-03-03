@@ -27,7 +27,8 @@ namespace Controllers
                 w.TryGetValue("name", out name);
                 w.TryGetValue("surname", out surname);
                 w.TryGetValue("accountNumber", out accountNumber);
-                if (name.Contains(key) || surname.Contains(key) || accountNumber.Contains(key))
+                if (name.ToLower().Contains(key.ToLower()) || surname.ToLower().Contains(key.ToLower())
+                    || accountNumber.Contains(key))
                     workers.Add(w);
             }
             return workers;
@@ -40,7 +41,7 @@ namespace Controllers
             {
                 string name;
                 p.TryGetValue("name", out name);
-                if (name.Contains(key))
+                if (name.Contains(key) || name.ToLower().Contains(key.ToLower()))
                     projects.Add(p);
             }
             return projects;
@@ -53,7 +54,7 @@ namespace Controllers
             {
                 string name;
                 d.TryGetValue("name", out name);
-                if (name.Contains(key))
+                if (name.Contains(key) || name.ToLower().Contains(key.ToLower()))
                     departments.Add(d);
             }
             return departments;
@@ -66,7 +67,7 @@ namespace Controllers
             {
                 string name;
                 p.TryGetValue("name", out name);
-                if (name.Contains(key))
+                if (name.Contains(key) || name.ToLower().Contains(key.ToLower()))
                     positions.Add(p);
             }
             return positions;
@@ -81,7 +82,7 @@ namespace Controllers
                 string n, s;
                 w.TryGetValue("name", out n);
                 w.TryGetValue("surname", out s);
-                if (n.Equals(name) && s.Equals(surname))
+                if (n.ToLower().Equals(name.ToLower()) && s.ToLower().Equals(surname.ToLower()))
                     worker = w;
             }
             return worker;

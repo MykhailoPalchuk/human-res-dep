@@ -80,26 +80,20 @@ namespace Views
             }
         }
 
-        /*
-         * Logic for Cancel button
-         */
+        //Logic for Cancel button
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        /*
-         * Avoid bug with minimizing owner window
-         */
+        //Avoid bug with minimizing owner window
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
             Owner = null;
         }
 
-        /*
-         * Set enter button as OK button click
-         */
+        //Set enter button as OK button click
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

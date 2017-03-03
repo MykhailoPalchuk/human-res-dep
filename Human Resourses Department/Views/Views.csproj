@@ -81,6 +81,12 @@
     <Compile Include="ChooseProject.xaml.cs">
       <DependentUpon>ChooseProject.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSearch.xaml.cs">
+      <DependentUpon>GlobalSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KeyWindow.xaml.cs">
+      <DependentUpon>KeyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tables\DepartmentTable.cs" />
     <Compile Include="Tables\PositionTable.cs" />
     <Compile Include="Tables\ProjectTable.cs" />
@@ -109,6 +115,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ChooseProject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalSearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

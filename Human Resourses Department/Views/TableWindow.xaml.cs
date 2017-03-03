@@ -248,6 +248,7 @@ namespace Views
                 dataG = sender as DataGrid;
             else
                 dataG = dataGrid;
+            dataG.ContextMenu.Visibility = Visibility.Visible;
             dataG.ContextMenu.Items.Clear();
             var item = new MenuItem();
             item.Header = "Change data";
@@ -272,6 +273,7 @@ namespace Views
                 dataG = sender as DataGrid;
             else
                 dataG = dataGrid;
+            dataG.ContextMenu.Visibility = Visibility.Visible;
             dataG.ContextMenu.Items.Clear();
             var item = new MenuItem();
             item.Header = "Change data";
@@ -300,6 +302,7 @@ namespace Views
                 dataG = sender as DataGrid;
             else
                 dataG = dataGrid;
+            dataG.ContextMenu.Visibility = Visibility.Visible;
             dataG.ContextMenu.Items.Clear();
             var item = new MenuItem();
             item.Header = "Change data";
@@ -412,6 +415,8 @@ namespace Views
                     list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
                 }
                 dataGrid.ItemsSource = list;
+                CreateWorkerMenu(new object(), new RoutedEventArgs());
+                Title = "Workers";
             }
         }
 
@@ -441,6 +446,7 @@ namespace Views
                     list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
                 }
                 dataGrid.ItemsSource = list;
+                Title = "Workers";
             }
         }
         
@@ -491,6 +497,8 @@ namespace Views
                 var list = new List<WorkerTable>();
                 list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
                 dataGrid.ItemsSource = list;
+                CreateWorkerMenu(new object(), new RoutedEventArgs());
+                Title = "Workers";
             }
         }
 
@@ -515,6 +523,8 @@ namespace Views
                     list.Add(new PositionTable(id, name, hours, payment, totalPayment));
                 }
                 dataGrid.ItemsSource = list;
+                CreatePositionMenu(new object(), new RoutedEventArgs());
+                Title = "Positions";
             }
         }
 
@@ -534,6 +544,96 @@ namespace Views
         {
             choice = "positions";
             RefreshTable(sender, e);
+        }
+
+        public void ShowSearchResults(List<object> results)
+        {
+            if (results.Count == 0)
+            {
+                MessageBox.Show("No results", "Results", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else if (results[0] as WorkerTable != null)
+            {
+                var source = new List<WorkerTable>();
+                foreach (var item in results)
+                {
+                    source.Add(item as WorkerTable);
+                }
+                dataGrid.ItemsSource = source;
+                CreateWorkerMenu(new object(), new RoutedEventArgs());
+                Title = "Workers";
+            }
+            else if (results[0] as DepartmentTable != null)
+            {
+                var source = new List<DepartmentTable>();
+                foreach (var item in results)
+                {
+                    source.Add(item as DepartmentTable);
+                }
+                dataGrid.ItemsSource = source;
+                CreateDepartmentMenu(new object(), new RoutedEventArgs());
+                Title = "Departments";
+            }
+            else if (results[0] as PositionTable != null)
+            {
+                var source = new List<PositionTable>();
+                foreach (var item in results)
+                {
+                    source.Add(item as PositionTable);
+                }
+                dataGrid.ItemsSource = source;
+                CreatePositionMenu(new object(), new RoutedEventArgs());
+                Title = "Positions";
+            }
+            else if (results[0] as ProjectTable != null)
+            {
+                var source = new List<ProjectTable>();
+                foreach (var item in results)
+                {
+                    source.Add(item as ProjectTable);
+                }
+                dataGrid.ItemsSource = source;
+                dataGrid.ContextMenu.Visibility = Visibility.Hidden;
+                Title = "Projects";
+            }
+            else
+                MessageBox.Show("Something went wrong. Looks like you crashed everything!", "Unknown eror",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void SearchWorkers(object sender, RoutedEventArgs e)
+        {
+            KeyWindow keyWindow = new KeyWindow("workers");
+            keyWindow.Owner = this;
+            keyWindow.Show();
+        }
+
+        private void SearchDepartments(object sender, RoutedEventArgs e)
+        {
+            KeyWindow keyWindow = new KeyWindow("departments");
+            keyWindow.Owner = this;
+            keyWindow.Show();
+        }
+
+        private void SearchPositions(object sender, RoutedEventArgs e)
+        {
+            KeyWindow keyWindow = new KeyWindow("positions");
+            keyWindow.Owner = this;
+            keyWindow.Show();
+        }
+
+        private void SearchProjects(object sender, RoutedEventArgs e)
+        {
+            KeyWindow keyWindow = new KeyWindow("projects");
+            keyWindow.Owner = this;
+            keyWindow.Show();
+        }
+
+        private void SearchGlobal(object sender, RoutedEventArgs e)
+        {
+            KeyWindow keyWindow = new KeyWindow("global");
+            keyWindow.Owner = this;
+            keyWindow.Show();
         }
     }
 }
