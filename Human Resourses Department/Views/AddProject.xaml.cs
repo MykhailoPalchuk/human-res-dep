@@ -21,8 +21,20 @@ namespace Views
     /// </summary>
     public partial class AddProject : Window
     {
+        private int workerId;
+
+        //Just add project to database
         public AddProject()
         {
+            workerId = 0;
+            InitializeComponent();
+            ResizeMode = ResizeMode.NoResize;
+        }
+
+        //Add new project to concrete worker
+        public AddProject(int workerId)
+        {
+            this.workerId = workerId;
             InitializeComponent();
             ResizeMode = ResizeMode.NoResize;
         }
@@ -54,6 +66,15 @@ namespace Views
                     int cost = int.Parse(costTextBox.Text);
                     ProjectController projectController = new ProjectController();
                     projectController.AddProject(nameTextBox.Text, cost);
+
+                    //check if we are adding new project to worker
+                    if (workerId != 0)
+                    {
+                        WorkerController workerController = new WorkerController();
+                        workerController.AddProject(workerId, nameTextBox.Text);
+                        var owner = Owner as TableWindow;
+                        owner.RefreshTable(new object(), new RoutedEventArgs());
+                    }
                     MessageBox.Show("Project added successfully!", "Success");
                     Close();
                 }

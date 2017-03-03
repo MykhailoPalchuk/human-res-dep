@@ -21,6 +21,8 @@ namespace Views
     /// </summary>
     public partial class AddWorker : Window
     {
+        private int workerId;
+
         public AddWorker()
         {
             InitializeComponent();
@@ -30,6 +32,55 @@ namespace Views
             FormDepartmentsList();
             FormPositionsList();
             FormProjectsList();
+        }
+
+        //For changing data
+        public AddWorker(int workerId)
+        {
+            this.workerId = workerId;
+            InitializeComponent();
+            ResizeMode = ResizeMode.NoResize;
+
+            //Form items list for each combobox
+            FormDepartmentsList();
+            FormPositionsList();
+            FormProjectsList();
+
+            //Set data
+            var workerController = new WorkerController();
+            var worker = workerController.GetWorkerInfo(workerId);
+            string name, surname, account, dep, pos, exp, lastProject;
+            worker.TryGetValue("name", out name);
+            worker.TryGetValue("surname", out surname);
+            worker.TryGetValue("accountNumber", out account);
+            worker.TryGetValue("department", out dep);
+            worker.TryGetValue("position", out pos);
+            worker.TryGetValue("experience", out exp);
+            worker.TryGetValue("project", out lastProject);
+
+            nameTextBox.Text = name;
+            surnameTextBox.Text = surname;
+            accountNumberTextBox.Text = account;
+            object item = "";
+            foreach(var i in comboBoxDepartment.Items)
+            {
+                if ((i as string).Equals(dep))
+                    item = i;
+            }
+            comboBoxDepartment.SelectedItem = item;
+            foreach(var i in comboBoxPosition.Items)
+            {
+                if ((i as string).Equals(pos))
+                    item = i;
+            }
+            comboBoxPosition.SelectedItem = item;
+            experienceTextBox.Text = exp;
+            foreach(var i in comboBoxProject.Items)
+            {
+                if ((i as string).Equals(lastProject))
+                    item = i;
+            }
+            comboBoxProject.SelectedItem = item;
         }
 
         //Form items list for department combobox
@@ -192,26 +243,43 @@ namespace Views
                 else
                 {
                     WorkerController workerController = new WorkerController();
-                    bool workerAdded = workerController.AddWorker(nameTextBox.Text, surnameTextBox.Text,
-                        accountNumberTextBox.Text, comboBoxDepartment.Text, comboBoxPosition.Text,
-                        int.Parse(experienceTextBox.Text), projectNameTextBox.Text);
-                    if(workerAdded && projectAdded)
+                    if (workerId != 0)
                     {
-                        MessageBox.Show("Worker added successfully with a new project", "Success");
+                        workerController.ChangeName(workerId, nameTextBox.Text);
+                        workerController.ChangeSurname(workerId, surnameTextBox.Text);
+                        workerController.ChangeAccountNumber(workerId, accountNumberTextBox.Text);
+                        workerController.ChangeDepartment(workerId, comboBoxDepartment.SelectedItem.ToString());
+                        workerController.ChangePosition(workerId, comboBoxPosition.SelectedItem.ToString());
+                        workerController.ChangeExperience(workerId, int.Parse(experienceTextBox.Text));
+                        workerController.AddProject(workerId, comboBoxProject.SelectedItem.ToString());
+                        MessageBox.Show("Changes saved", "Success");
                         TableWindow parent = Owner as TableWindow;
-                        parent.RefreshTable();
-                        Close();
-                    }
-                    else if(workerAdded && !projectAdded)
-                    {
-                        MessageBox.Show("Worker added successfully", "Success");
-                        TableWindow parent = Owner as TableWindow;
-                        parent.RefreshTable();
+                        parent.RefreshTable(sender, e);
                         Close();
                     }
                     else
                     {
-                        MessageBox.Show("Something went wrong. Try again", "Error");
+                        bool workerAdded = workerController.AddWorker(nameTextBox.Text, surnameTextBox.Text,
+                            accountNumberTextBox.Text, comboBoxDepartment.Text, comboBoxPosition.Text,
+                            int.Parse(experienceTextBox.Text), projectNameTextBox.Text);
+                        if (workerAdded && projectAdded)
+                        {
+                            MessageBox.Show("Worker added successfully with a new project", "Success");
+                            TableWindow parent = Owner as TableWindow;
+                            parent.RefreshTable(sender, e);
+                            Close();
+                        }
+                        else if (workerAdded && !projectAdded)
+                        {
+                            MessageBox.Show("Worker added successfully", "Success");
+                            TableWindow parent = Owner as TableWindow;
+                            parent.RefreshTable(sender, e);
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Something went wrong. Try again", "Error");
+                        }
                     }
                 }
             }

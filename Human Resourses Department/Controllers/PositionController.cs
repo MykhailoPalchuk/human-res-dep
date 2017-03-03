@@ -36,6 +36,11 @@ namespace Controllers
             return positionService.ChangePayment(positionId, newPayment);
         }
 
+        public Dictionary<string,string> GetPositionInfo(int positionId)
+        {
+            return positionService.GetPositionInfo(positionId);
+        }
+
         public List<Dictionary<string,string>> GetAllPositionsInfoByName()
         {
             var list = positionService.GetAllPositionsInfo();
@@ -90,30 +95,41 @@ namespace Controllers
                 if (list.Count > 0 && list.Count < 5)
                     return list;
                 else
-                    return (List<Dictionary<string, string>>)list.Take(5);
+                {
+                    var res = new List<Dictionary<string, string>>();
+                    for(int i = 0; i < 5; i++)
+                    {
+                        res.Add(list[i]);
+                    }
+                    return res;
+                }
             }
         }
 
         public Dictionary<string, string> GetTopWorker(int positionId)
         {
             var workers = positionService.GetWorkers(positionId);
-            workers.Sort(delegate (Dictionary<string, string> d1, Dictionary<string, string> d2)
+            if (workers != null)
             {
-                string exp1, cost1, exp2, cost2;
-                d1.TryGetValue("experience", out exp1);
-                d1.TryGetValue("projectsCost", out cost1);
-                d2.TryGetValue("eperience", out exp2);
-                d2.TryGetValue("projectsCost", out cost2);
-                int e1 = int.Parse(exp1);
-                int c1 = int.Parse(cost1);
-                int e2 = int.Parse(exp2);
-                int c2 = int.Parse(cost2);
+                workers.Sort(delegate (Dictionary<string, string> d1, Dictionary<string, string> d2)
+                {
+                    string exp1, cost1, exp2, cost2;
+                    d1.TryGetValue("experience", out exp1);
+                    d1.TryGetValue("projectsCost", out cost1);
+                    d2.TryGetValue("experience", out exp2);
+                    d2.TryGetValue("projectsCost", out cost2);
+                    int e1 = int.Parse(exp1);
+                    int c1 = int.Parse(cost1);
+                    int e2 = int.Parse(exp2);
+                    int c2 = int.Parse(cost2);
 
-                int first = e1 / c1;
-                int second = e2 / c2;
-                return first.CompareTo(second);
-            });
-            return workers.First();
+                    int first = e1 / c1;
+                    int second = e2 / c2;
+                    return first.CompareTo(second);
+                });
+                return workers.FirstOrDefault();
+            }
+            return null;
         }
     }
 }

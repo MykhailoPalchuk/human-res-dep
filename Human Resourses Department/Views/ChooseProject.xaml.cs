@@ -12,32 +12,24 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Views.Tables;
 using Controllers;
 
 namespace Views
 {
     /// <summary>
-    /// Logic of interaction for AddDepartment.xaml
+    /// Logic of interaction for ChooseProject.xaml
     /// </summary>
-    public partial class AddDepartment : Window
+    public partial class ChooseProject : Window
     {
-        private bool change;
-        private int id;
+        WorkerTable worker;
 
-        public AddDepartment(bool change, int id)
+        public ChooseProject(WorkerTable worker)
         {
-            this.change = change;
-            this.id = id;
+            this.worker = worker;
             InitializeComponent();
             ResizeMode = ResizeMode.NoResize;
-            if (change)
-            {
-                DepartmentController dc = new DepartmentController();
-                var dep = dc.GetDepartmentInfo(id);
-                string name;
-                dep.TryGetValue("name", out name);
-                nameTextBox.Text = name;
-            }
+            FormProjectsList();
         }
 
         /*
@@ -45,33 +37,27 @@ namespace Views
          * check input
          * highlight wrong input
          * get correct input
-         * create new project in database
+         * add project to worker
          * show message
          * close
          */
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            if (nameTextBox.Text.Equals(""))
+            if(comboBox == null || comboBox.Text.Equals(""))
             {
-                MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                nameTextBox.BorderBrush = Brushes.Red;
+                comboBox.BorderBrush = Brushes.Red;
+                MessageBox.Show("Choose any project to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
-                DepartmentController departmentController = new DepartmentController();
-                if (change)
-                {
-                    departmentController.ChangeName(id, nameTextBox.Text);
-                    MessageBox.Show("Department data changed successfully!", "Success");
-                }
+                WorkerController workerController = new WorkerController();
+                if(workerController.AddProject(int.Parse(worker.Id), comboBox.Text))
+                    MessageBox.Show("Project added successfully!", "Success");
                 else
-                {
-                    departmentController.AddDepartment(nameTextBox.Text);
-                    MessageBox.Show("Department added successfully!", "Success");
-                }
-                TableWindow parent = Owner as TableWindow;
-                parent.RefreshTable(sender, e);
+                    MessageBox.Show("Something went wrong", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
+                var owner = Owner as TableWindow;
+                owner.RefreshTable(new object(), new RoutedEventArgs());
             }
         }
 
@@ -81,6 +67,18 @@ namespace Views
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        //Form items list for project combobox
+        private void FormProjectsList()
+        {
+            ProjectController projectController = new ProjectController();
+            string name;
+            foreach (var proj in projectController.GetAllProjectsInfo())
+            {
+                proj.TryGetValue("name", out name);
+                comboBox.Items.Add(name);
+            }
         }
 
         /*

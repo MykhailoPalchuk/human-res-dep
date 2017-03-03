@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Views.Tables
 {
-    class PositionTable
+    public class PositionTable
     {
         public string Id { get; set; }
         public string Name { get; set; }

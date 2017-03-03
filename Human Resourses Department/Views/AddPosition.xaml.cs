@@ -21,12 +21,30 @@ namespace Views
     /// </summary>
     public partial class AddPosition : Window
     {
+        private int positionId;
         public AddPosition()
         {
+            positionId = 0;
             InitializeComponent();
             ResizeMode = ResizeMode.NoResize;
         }
 
+        //For changing data
+        public AddPosition(int positionId)
+        {
+            this.positionId = positionId;
+            InitializeComponent();
+            ResizeMode = ResizeMode.NoResize;
+            PositionController positionController = new PositionController();
+            var position = positionController.GetPositionInfo(positionId);
+            string name, hours, payment;
+            position.TryGetValue("name", out name);
+            position.TryGetValue("hours", out hours);
+            position.TryGetValue("payment", out payment);
+            nameTextBox.Text = name;
+            hoursTextBox.Text = hours;
+            paymentTextBox.Text = payment;
+        }
         /*
          * Logic for OK button:
          * check input
@@ -60,10 +78,22 @@ namespace Views
                     int hours = int.Parse(hoursTextBox.Text);
                     double payment = double.Parse(paymentTextBox.Text);
                     PositionController positionController = new PositionController();
-                    positionController.AddPosition(nameTextBox.Text, hours, payment);
-                    MessageBox.Show("Position added successfully!", "Success");
+                    if (positionId == 0)
+                    {
+                        positionController.AddPosition(nameTextBox.Text, hours, payment);
+                        MessageBox.Show("Position added successfully!", "Success");
+                    }
+                    else
+                    {
+                        if(positionController.ChangeName(positionId, nameTextBox.Text) &&
+                                positionController.ChangeHours(positionId, hours) &&
+                                positionController.ChangePayment(positionId, payment))
+                            MessageBox.Show("Position data changed successfully!", "Success");
+                        else
+                            MessageBox.Show("Something went wrong", "Error");
+                    }
                     TableWindow parent = Owner as TableWindow;
-                    parent.RefreshTable();
+                    parent.RefreshTable(sender, e);
                     Close();
                 }
                 catch
