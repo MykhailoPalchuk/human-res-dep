@@ -60,7 +60,8 @@ namespace Views
                     MessageBox.Show("Department added successfully!", "Success");
                 }
                 TableWindow parent = Owner as TableWindow;
-                parent.RefreshTable(sender, e);
+                if (parent != null)
+                    parent.RefreshTable(sender, e);
                 Close();
             }
         }

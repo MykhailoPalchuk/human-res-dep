@@ -63,7 +63,8 @@ namespace Views
                         WorkerController workerController = new WorkerController();
                         workerController.AddProject(workerId, nameTextBox.Text);
                         var owner = Owner as TableWindow;
-                        owner.RefreshTable(new object(), new RoutedEventArgs());
+                        if (owner != null)
+                            owner.RefreshTable(new object(), new RoutedEventArgs());
                     }
                     MessageBox.Show("Project added successfully!", "Success");
                     Close();

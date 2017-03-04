@@ -83,7 +83,8 @@ namespace Views
                             MessageBox.Show("Something went wrong", "Error");
                     }
                     TableWindow parent = Owner as TableWindow;
-                    parent.RefreshTable(sender, e);
+                    if (parent != null)
+                        parent.RefreshTable(sender, e);
                     Close();
                 }
                 catch

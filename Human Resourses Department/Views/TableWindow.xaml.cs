@@ -325,112 +325,193 @@ namespace Views
         private void WorkerChangeData(object sender, RoutedEventArgs e)
         {
             var worker = dataGrid.SelectedItem as WorkerTable;
-            var workerWindow = new AddWorker(int.Parse(worker.Id));
-            workerWindow.Owner = this;
-            workerWindow.Show();
+            if (worker != null)
+            {
+                var workerWindow = new AddWorker(int.Parse(worker.Id));
+                workerWindow.Owner = this;
+                workerWindow.Show();
+            }
         }
 
         private void WorkerDelete(object sender, RoutedEventArgs e)
         {
             var worker = dataGrid.SelectedItem as WorkerTable;
-            var res = MessageBox.Show("Worker " + worker.Name + " " + worker.Surname + " will be deleted", "Warning", 
-                MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (res == MessageBoxResult.OK)
+            if (worker != null)
             {
-                int id = int.Parse(worker.Id);
-                if (workerController.DeleteWorker(id))
-                    MessageBox.Show("Worker deleted successfully");
-                else
-                    MessageBox.Show("Error", "Error");
-                RefreshTable(sender, e);
+                var res = MessageBox.Show("Worker " + worker.Name + " " + worker.Surname + " will be deleted", "Warning",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (res == MessageBoxResult.OK)
+                {
+                    int id = int.Parse(worker.Id);
+                    if (workerController.DeleteWorker(id))
+                        MessageBox.Show("Worker deleted successfully");
+                    else
+                        MessageBox.Show("Error", "Error");
+                    RefreshTable(sender, e);
+                }
             }
         }
         
         private void WorkerAddProject(object sender, RoutedEventArgs e)
         {
-            var res = MessageBox.Show("Create new project?", "Add project", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             WorkerTable worker = dataGrid.SelectedItem as WorkerTable;
-            if (res == MessageBoxResult.Yes)
+            if (worker != null)
             {
-                var addProjectWindow = new AddProject(int.Parse(worker.Id));
-                addProjectWindow.Owner = this;
-                addProjectWindow.Show();
-            }
-            else if(res == MessageBoxResult.No)
-            {
-                var chooseProject = new ChooseProject(worker);
-                chooseProject.Owner = this;
-                chooseProject.Show();
+                var res = MessageBox.Show("Create new project?", "Add project",
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
+                {
+                    var addProjectWindow = new AddProject(int.Parse(worker.Id));
+                    addProjectWindow.Owner = this;
+                    addProjectWindow.Show();
+                }
+                else if (res == MessageBoxResult.No)
+                {
+                    var chooseProject = new ChooseProject(worker);
+                    chooseProject.Owner = this;
+                    chooseProject.Show();
+                }
             }
         }
 
         private void DepartmentChangeData(object sender, RoutedEventArgs e)
         {
             var dep = dataGrid.SelectedItem as DepartmentTable;
-            int id = int.Parse(dep.Id);
-            AddDepartment department = new AddDepartment(true, id);
-            department.Owner = this;
-            department.Show();
+            if (dep != null)
+            {
+                int id = int.Parse(dep.Id);
+                AddDepartment department = new AddDepartment(true, id);
+                department.Owner = this;
+                department.Show();
+            }
         }
 
         private void DepartmentDelete(object sender, RoutedEventArgs e)
         {
             var dep = dataGrid.SelectedItem as DepartmentTable;
-            var res = MessageBox.Show("Department " + dep.Name + " will be deleted", "Warning",
-                MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (res == MessageBoxResult.OK)
+            if (dep != null)
             {
-                int id = int.Parse(dep.Id);
-                if (departmentController.DeleteDepartment(id))
-                    MessageBox.Show("Department deleted successfully");
-                else
-                    MessageBox.Show("Error", "Error");
-                RefreshTable(sender, e);
+                var res = MessageBox.Show("Department " + dep.Name + " will be deleted", "Warning",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (res == MessageBoxResult.OK)
+                {
+                    int id = int.Parse(dep.Id);
+                    if (departmentController.DeleteDepartment(id))
+                        MessageBox.Show("Department deleted successfully");
+                    else
+                        MessageBox.Show("Error", "Error");
+                    RefreshTable(sender, e);
+                }
             }
         }
 
         private void DepartmentShowWorkersByPosition(object sender, RoutedEventArgs e)
         {
             var department = dataGrid.SelectedItem as DepartmentTable;
-            var workers = departmentController.GetWorkersByPosition(int.Parse(department.Id));
-            if(workers == null || workers.Count == 0)
-                MessageBox.Show("There are no workers in this department", "No workers",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            else
+            if (department != null)
             {
-                var list = new List<WorkerTable>();
-                foreach (var w in workers)
+                var workers = departmentController.GetWorkersByPosition(int.Parse(department.Id));
+                if (workers == null || workers.Count == 0)
+                    MessageBox.Show("There are no workers in this department", "No workers",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                else
                 {
-                    string id, name, surname, account, dep, pos, exp, lastProject, projectsCost;
-                    w.TryGetValue("id", out id);
-                    w.TryGetValue("name", out name);
-                    w.TryGetValue("surname", out surname);
-                    w.TryGetValue("accountNumber", out account);
-                    w.TryGetValue("department", out dep);
-                    w.TryGetValue("position", out pos);
-                    w.TryGetValue("experience", out exp);
-                    w.TryGetValue("project", out lastProject);
-                    w.TryGetValue("projectsCost", out projectsCost);
+                    var list = new List<WorkerTable>();
+                    foreach (var w in workers)
+                    {
+                        string id, name, surname, account, dep, pos, exp, lastProject, projectsCost;
+                        w.TryGetValue("id", out id);
+                        w.TryGetValue("name", out name);
+                        w.TryGetValue("surname", out surname);
+                        w.TryGetValue("accountNumber", out account);
+                        w.TryGetValue("department", out dep);
+                        w.TryGetValue("position", out pos);
+                        w.TryGetValue("experience", out exp);
+                        w.TryGetValue("project", out lastProject);
+                        w.TryGetValue("projectsCost", out projectsCost);
 
-                    list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
+                        list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
+                    }
+                    dataGrid.ItemsSource = list;
+                    CreateWorkerMenu(new object(), new RoutedEventArgs());
+                    Title = "Workers";
                 }
-                dataGrid.ItemsSource = list;
-                CreateWorkerMenu(new object(), new RoutedEventArgs());
-                Title = "Workers";
             }
         }
 
         private void DepartmentShowWorkersByProjects(object sender, RoutedEventArgs e)
         {
             var department = dataGrid.SelectedItem as DepartmentTable;
-            var workers = departmentController.GetWorkersByProjectsCost(int.Parse(department.Id));
-            if (workers == null || workers.Count == 0)
-                MessageBox.Show("There are no workers in this department", "No workers",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            else
+            if (department != null)
             {
-                var list = new List<WorkerTable>();
-                foreach (var w in workers)
+                var workers = departmentController.GetWorkersByProjectsCost(int.Parse(department.Id));
+                if (workers == null || workers.Count == 0)
+                    MessageBox.Show("There are no workers in this department", "No workers",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                {
+                    var list = new List<WorkerTable>();
+                    foreach (var w in workers)
+                    {
+                        string id, name, surname, account, dep, pos, exp, lastProject, projectsCost;
+                        w.TryGetValue("id", out id);
+                        w.TryGetValue("name", out name);
+                        w.TryGetValue("surname", out surname);
+                        w.TryGetValue("accountNumber", out account);
+                        w.TryGetValue("department", out dep);
+                        w.TryGetValue("position", out pos);
+                        w.TryGetValue("experience", out exp);
+                        w.TryGetValue("project", out lastProject);
+                        w.TryGetValue("projectsCost", out projectsCost);
+
+                        list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
+                    }
+                    dataGrid.ItemsSource = list;
+                    Title = "Workers";
+                }
+            }
+        }
+        
+        private void PositionChangeData(object sender, RoutedEventArgs e)
+        {
+            var position = dataGrid.SelectedItem as PositionTable;
+            if (position != null)
+            {
+                var positionWindow = new AddPosition(int.Parse(position.Id));
+                positionWindow.Owner = this;
+                positionWindow.Show();
+            }
+        }
+
+        private void PositionDelete(object sender, RoutedEventArgs e)
+        {
+            var pos = dataGrid.SelectedItem as PositionTable;
+            if (pos != null)
+            {
+                var res = MessageBox.Show("Position " + pos.Name + " will be deleted", "Warning",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (res == MessageBoxResult.OK)
+                {
+                    int id = int.Parse(pos.Id);
+                    if (positionController.DeletePosition(id))
+                        MessageBox.Show("Position deleted successfully");
+                    else
+                        MessageBox.Show("Error", "Error");
+                    RefreshTable(sender, e);
+                }
+            }
+        }
+
+        private void PositionShowWorkers(object sender, RoutedEventArgs e)
+        {
+            var position = dataGrid.SelectedItem as PositionTable;
+            if (position != null)
+            {
+                var w = positionController.GetTopWorker(int.Parse(position.Id));
+                if (w == null)
+                    MessageBox.Show("There are no workers on this position", "No workers",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                else
                 {
                     string id, name, surname, account, dep, pos, exp, lastProject, projectsCost;
                     w.TryGetValue("id", out id);
@@ -443,62 +524,12 @@ namespace Views
                     w.TryGetValue("project", out lastProject);
                     w.TryGetValue("projectsCost", out projectsCost);
 
+                    var list = new List<WorkerTable>();
                     list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
+                    dataGrid.ItemsSource = list;
+                    CreateWorkerMenu(new object(), new RoutedEventArgs());
+                    Title = "Workers";
                 }
-                dataGrid.ItemsSource = list;
-                Title = "Workers";
-            }
-        }
-        
-        private void PositionChangeData(object sender, RoutedEventArgs e)
-        {
-            var position = dataGrid.SelectedItem as PositionTable;
-            var positionWindow = new AddPosition(int.Parse(position.Id));
-            positionWindow.Owner = this;
-            positionWindow.Show();
-        }
-
-        private void PositionDelete(object sender, RoutedEventArgs e)
-        {
-            var pos = dataGrid.SelectedItem as PositionTable;
-            var res = MessageBox.Show("Position " + pos.Name + " will be deleted", "Warning",
-                MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (res == MessageBoxResult.OK)
-            {
-                int id = int.Parse(pos.Id);
-                if (positionController.DeletePosition(id))
-                    MessageBox.Show("Position deleted successfully");
-                else
-                    MessageBox.Show("Error", "Error");
-                RefreshTable(sender, e);
-            }
-        }
-
-        private void PositionShowWorkers(object sender, RoutedEventArgs e)
-        {
-            var position = dataGrid.SelectedItem as PositionTable;
-            var w = positionController.GetTopWorker(int.Parse(position.Id));
-            if (w == null)
-                MessageBox.Show("There are no workers on this position", "No workers",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            else
-            {
-                string id, name, surname, account, dep, pos, exp, lastProject, projectsCost;
-                w.TryGetValue("id", out id);
-                w.TryGetValue("name", out name);
-                w.TryGetValue("surname", out surname);
-                w.TryGetValue("accountNumber", out account);
-                w.TryGetValue("department", out dep);
-                w.TryGetValue("position", out pos);
-                w.TryGetValue("experience", out exp);
-                w.TryGetValue("project", out lastProject);
-                w.TryGetValue("projectsCost", out projectsCost);
-
-                var list = new List<WorkerTable>();
-                list.Add(new WorkerTable(id, name, surname, account, dep, pos, exp, lastProject, projectsCost));
-                dataGrid.ItemsSource = list;
-                CreateWorkerMenu(new object(), new RoutedEventArgs());
-                Title = "Workers";
             }
         }
 

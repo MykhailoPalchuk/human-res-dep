@@ -245,7 +245,8 @@ namespace Views
                         workerController.AddProject(workerId, comboBoxProject.SelectedItem.ToString());
                         MessageBox.Show("Changes saved", "Success");
                         TableWindow parent = Owner as TableWindow;
-                        parent.RefreshTable(sender, e);
+                        if(parent != null)
+                            parent.RefreshTable(sender, e);
                         Close();
                     }
                     else
@@ -257,14 +258,16 @@ namespace Views
                         {
                             MessageBox.Show("Worker added successfully with a new project", "Success");
                             TableWindow parent = Owner as TableWindow;
-                            parent.RefreshTable(sender, e);
+                            if (parent != null)
+                                parent.RefreshTable(sender, e);
                             Close();
                         }
                         else if (workerAdded && !projectAdded)
                         {
                             MessageBox.Show("Worker added successfully", "Success");
                             TableWindow parent = Owner as TableWindow;
-                            parent.RefreshTable(sender, e);
+                            if (parent != null)
+                                parent.RefreshTable(sender, e);
                             Close();
                         }
                         else
