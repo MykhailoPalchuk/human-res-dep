@@ -46,19 +46,19 @@ namespace Views
          */
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            if(nameTextBox.Text.Equals(""))
+            if(nameTextBox.Text.Equals("") || !Input.IsName(nameTextBox.Text))
             {
-                MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 nameTextBox.BorderBrush = Brushes.Red;                
             }
-            else if (hoursTextBox.Text.Equals(""))
+            else if (hoursTextBox.Text.Equals("") || !Input.IsNumber(hoursTextBox.Text))
             {
-                MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 hoursTextBox.BorderBrush = Brushes.Red;
             }
-            else if (paymentTextBox.Text.Equals(""))
+            else if (paymentTextBox.Text.Equals("") || !Input.IsDouble(paymentTextBox.Text))
             {
-                MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 paymentTextBox.BorderBrush = Brushes.Red;
             }
             else

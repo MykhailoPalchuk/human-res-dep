@@ -41,9 +41,9 @@ namespace Views
          */
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            if (nameTextBox.Text.Equals(""))
+            if (nameTextBox.Text.Equals("") || !Input.IsName(nameTextBox.Text))
             {
-                MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 nameTextBox.BorderBrush = Brushes.Red;
             }
             else

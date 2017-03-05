@@ -166,17 +166,17 @@ namespace Views
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
-            if (nameTextBox.Text.Equals(""))
+            if (nameTextBox.Text.Equals("") || !Input.IsName(nameTextBox.Text))
             {
                 nameTextBox.BorderBrush = Brushes.Red;
                 flag = false;
             }
-            if (surnameTextBox.Text.Equals(""))
+            if (surnameTextBox.Text.Equals("") || !Input.IsName(surnameTextBox.Text))
             {
                 surnameTextBox.BorderBrush = Brushes.Red;
                 flag = false;
             }
-            if (accountNumberTextBox.Text.Equals(""))
+            if (accountNumberTextBox.Text.Equals("") || !Input.IsAccountNumber(accountNumberTextBox.Text))
             {
                 accountNumberTextBox.BorderBrush = Brushes.Red;
                 flag = false;
@@ -191,7 +191,7 @@ namespace Views
                 comboBoxPosition.BorderBrush = Brushes.Red;
                 flag = false;
             }
-            if (experienceTextBox.Text.Equals(""))
+            if (experienceTextBox.Text.Equals("") || Input.IsNumber(experienceTextBox.Text))
             {
                 experienceTextBox.BorderBrush = Brushes.Red;
                 flag = false;
@@ -219,7 +219,7 @@ namespace Views
             }
             if (!flag)
             {
-                MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {

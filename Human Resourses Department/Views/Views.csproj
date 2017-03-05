@@ -84,6 +84,7 @@
     <Compile Include="GlobalSearch.xaml.cs">
       <DependentUpon>GlobalSearch.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Input.cs" />
     <Compile Include="KeyWindow.xaml.cs">
       <DependentUpon>KeyWindow.xaml</DependentUpon>
     </Compile>
