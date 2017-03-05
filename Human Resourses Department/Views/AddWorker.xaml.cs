@@ -110,12 +110,7 @@ namespace Views
                 comboBoxProject.Items.Add(name);
             }
         }
-
-        /*
-         * Logic for choosing new project or existing
-         * hide textboxes "name" and "cost" when existing project is choosen
-         * and show them when "new project" is choosen
-         */
+        
         private void comboBoxProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -135,6 +130,8 @@ namespace Views
                 labelProjectName.Visibility = Visibility.Collapsed;
                 projectCostTextBox.Visibility = Visibility.Collapsed;
                 projectCostLabel.Visibility = Visibility.Collapsed;
+                projectNameLabel.Content = "";
+                projCostLabel.Content = "";
                 ProjectController projectController = new ProjectController();
                 string name = null;
                 string cost = null;
@@ -153,66 +150,66 @@ namespace Views
                 projectCostTextBox.Text = cost;
             }
         }
-
-        /*
-         * Logic for OK button:
-         * check input
-         * highlight wrong input
-         * get correct input
-         * create new project in database
-         * show message
-         * close
-         */
+        
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
             if (nameTextBox.Text.Equals("") || !Input.IsName(nameTextBox.Text))
             {
                 nameTextBox.BorderBrush = Brushes.Red;
+                nameLabel.Content = "Start with capitel letter";
                 flag = false;
             }
             if (surnameTextBox.Text.Equals("") || !Input.IsName(surnameTextBox.Text))
             {
                 surnameTextBox.BorderBrush = Brushes.Red;
+                surnameLabel.Content = "Start with capital letter";
                 flag = false;
             }
             if (accountNumberTextBox.Text.Equals("") || !Input.IsAccountNumber(accountNumberTextBox.Text))
             {
                 accountNumberTextBox.BorderBrush = Brushes.Red;
+                accountLabel.Content = "16 digits";
                 flag = false;
             }
             if (comboBoxDepartment.SelectedItem == null)
             {
                 comboBoxDepartment.BorderBrush = Brushes.Red;
+                deparmentLabel.Content = "Select department";
                 flag = false;
             }
             if (comboBoxPosition.SelectedItem == null)
             {
                 comboBoxPosition.BorderBrush = Brushes.Red;
+                positionLabel.Content = "Select position";
                 flag = false;
             }
             if (experienceTextBox.Text.Equals("") || !Input.IsNumber(experienceTextBox.Text))
             {
                 experienceTextBox.BorderBrush = Brushes.Red;
+                expLabel.Content = "Must be integer";
                 flag = false;
             }
             if (comboBoxProject.SelectedItem == null)
             {
                 comboBoxProject.BorderBrush = Brushes.Red;
+                projectLabel.Content = "Select project";
                 flag = false;
             }
             else
             {
                 if (comboBoxProject.SelectedItem.ToString().Equals("New project"))
                 {
-                    if (projectNameTextBox.Text.Equals(""))
+                    if (projectNameTextBox.Text.Equals("") || !Input.IsName(projectNameTextBox.Text))
                     {
                         projectNameTextBox.BorderBrush = Brushes.Red;
+                        projectNameLabel.Content = "Start with capital letter";
                         flag = false;
                     }
-                    if (projectCostTextBox.Text.Equals(""))
+                    if (projectCostTextBox.Text.Equals("") || !Input.IsNumber(projectCostTextBox.Text))
                     {
                         projectCostTextBox.BorderBrush = Brushes.Red;
+                        projCostLabel.Content = "Must be integer";
                         flag = false;
                     }
                 }
@@ -276,27 +273,18 @@ namespace Views
                 }
             }
         }
-
-        /*
-         * Logic for Cancel button
-         */
+        
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
-        /*
-         * Avoid bug with minimizing owner window
-         */
+        
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
             Owner = null;
         }
-
-        /*
-         * Set enter button as OK button click
-         */
+        
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

@@ -12,6 +12,7 @@ namespace Views
     public partial class AddPosition : Window
     {
         private int positionId;
+
         public AddPosition()
         {
             positionId = 0;
@@ -35,32 +36,30 @@ namespace Views
             hoursTextBox.Text = hours;
             paymentTextBox.Text = payment;
         }
-        /*
-         * Logic for OK button:
-         * check input
-         * highlight wrong input
-         * get correct input
-         * create new project in database
-         * show message
-         * close
-         */
+
         private void OK_Click(object sender, RoutedEventArgs e)
         {
+            bool flag = true;
             if(nameTextBox.Text.Equals("") || !Input.IsName(nameTextBox.Text))
             {
-                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                nameTextBox.BorderBrush = Brushes.Red;                
+                nameLabel.Content = "Start with capital letter";
+                nameTextBox.BorderBrush = Brushes.Red;
+                flag = false;        
             }
-            else if (hoursTextBox.Text.Equals("") || !Input.IsNumber(hoursTextBox.Text))
+            if (hoursTextBox.Text.Equals("") || !Input.IsNumber(hoursTextBox.Text))
             {
-                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                hoursLabel.Content = "Only integer numbers";
                 hoursTextBox.BorderBrush = Brushes.Red;
+                flag = false;
             }
-            else if (paymentTextBox.Text.Equals("") || !Input.IsDouble(paymentTextBox.Text))
+            if (paymentTextBox.Text.Equals("") || !Input.IsDouble(paymentTextBox.Text))
             {
-                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                paymentLabel.Content = "Only float numbers(ex. 5,5)";
                 paymentTextBox.BorderBrush = Brushes.Red;
+                flag = false;
             }
+            if(flag == false)
+                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             else
             {
                 try
@@ -95,27 +94,18 @@ namespace Views
                 }
             }
         }
-
-        /*
-         * Logic for Cancel button
-         */
+        
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
-        /*
-         * Avoid bug with minimizing owner window
-         */
+        
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
             Owner = null;
         }
-
-        /*
-         * Set enter button as OK button click
-         */
+        
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

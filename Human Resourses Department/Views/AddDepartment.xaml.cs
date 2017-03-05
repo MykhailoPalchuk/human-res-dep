@@ -29,21 +29,13 @@ namespace Views
                 nameTextBox.Text = name;
             }
         }
-
-        /*
-         * Logic for OK button:
-         * check input
-         * highlight wrong input
-         * get correct input
-         * create new project in database
-         * show message
-         * close
-         */
+        
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             if (nameTextBox.Text.Equals("") || !Input.IsName(nameTextBox.Text))
             {
                 MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                label1.Content = "Start with capital letter";
                 nameTextBox.BorderBrush = Brushes.Red;
             }
             else
@@ -65,27 +57,18 @@ namespace Views
                 Close();
             }
         }
-
-        /*
-         * Logic for Cancel button
-         */
+        
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
-        /*
-         * Avoid bug with minimizing owner window
-         */
+        
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
             Owner = null;
         }
 
-        /*
-         * Set enter button as OK button click
-         */
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

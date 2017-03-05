@@ -12,8 +12,7 @@ namespace Views
     public partial class AddProject : Window
     {
         private int workerId;
-
-        //Just add project to database
+        
         public AddProject()
         {
             workerId = 0;
@@ -29,59 +28,44 @@ namespace Views
             ResizeMode = ResizeMode.NoResize;
         }
 
-        /*
-         * Logic for OK button:
-         * check input
-         * highlight wrong input
-         * get correct input
-         * create new project in database
-         * show message
-         * close
-         */
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            if (nameTextBox.Text.Equals("") || costTextBox.Text.Equals(""))
+            bool flag = true;
+            if (nameTextBox.Text.Equals("") || !Input.IsName(nameTextBox.Text))
             {
-                var result = MessageBox.Show("Fill all lines to continue", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                if (result == MessageBoxResult.OK)
-                {
-                    nameTextBox.BorderBrush = Brushes.Red;
-                    costTextBox.BorderBrush = Brushes.Red;
-                }
+                label1.Content = "Start with capital letter";
+                nameTextBox.BorderBrush = Brushes.Red;
+                flag = false;
             }
+            if (costTextBox.Text.Equals("") || !Input.IsNumber(costTextBox.Text))
+            {
+                
+                label2.Content = "Must be integer";
+                costTextBox.BorderBrush = Brushes.Red;
+                flag = false;
+            }
+            if(flag == false)
+                MessageBox.Show("Enter correct data", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             else
             {
-                try
-                {
-                    int cost = int.Parse(costTextBox.Text);
-                    ProjectController projectController = new ProjectController();
-                    projectController.AddProject(nameTextBox.Text, cost);
+                int cost = int.Parse(costTextBox.Text);
+                ProjectController projectController = new ProjectController();
+                projectController.AddProject(nameTextBox.Text, cost);
 
-                    //check if we are adding new project to worker
-                    if (workerId != 0)
-                    {
-                        WorkerController workerController = new WorkerController();
-                        workerController.AddProject(workerId, nameTextBox.Text);
-                        var owner = Owner as TableWindow;
-                        if (owner != null)
-                            owner.RefreshTable(new object(), new RoutedEventArgs());
-                    }
-                    MessageBox.Show("Project added successfully!", "Success");
-                    Close();
-                }
-                catch 
+                //check if we are adding new project to worker
+                if (workerId != 0)
                 {
-                    var result = MessageBox.Show("Enter correct cost of new project", "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                    if (result == MessageBoxResult.OK)
-                    {
-                        costTextBox.BorderBrush = Brushes.Red;
-                    }
+                    WorkerController workerController = new WorkerController();
+                    workerController.AddProject(workerId, nameTextBox.Text);
+                    var owner = Owner as TableWindow;
+                    if (owner != null)
+                        owner.RefreshTable(new object(), new RoutedEventArgs());
                 }
+                MessageBox.Show("Project added successfully!", "Success");
+                Close();
             }
         }
-
-        //Logic for Cancel button
+        
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -93,8 +77,7 @@ namespace Views
             base.OnClosing(e);
             Owner = null;
         }
-
-        //Set enter button as OK button click
+        
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

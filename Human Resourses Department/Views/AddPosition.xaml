@@ -15,5 +15,8 @@
         <Label x:Name="label" Content="Name" HorizontalAlignment="Left" FontSize="15" Margin="30,34,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label1" Content="Hours" HorizontalAlignment="Left" FontSize="15" Margin="30,94,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label2" Content="Payment" HorizontalAlignment="Left" FontSize="15" Margin="30,154,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="nameLabel" Content="" FontSize="10" Foreground="Red" HorizontalAlignment="Left" Margin="128,14,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="hoursLabel" Content="" FontSize="10" Foreground="Red" HorizontalAlignment="Left" Margin="128,74,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="paymentLabel" Content="" FontSize="10" Foreground="Red" HorizontalAlignment="Left" Margin="130,132,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

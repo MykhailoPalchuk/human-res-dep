@@ -11,5 +11,6 @@
         <Button x:Name="Cancel" Content="Cancel" FontSize="15" Height="30" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,212,20" Click="Cancel_Click"/>
         <Label x:Name="label" Content="Name" FontSize="15" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="nameTextBox" HorizontalAlignment="Left" Height="30" FontSize="15" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="119,120,0,0"/>
+        <Label x:Name="label1" Content="" FontSize="10" Foreground="Red" HorizontalAlignment="Left" Margin="119,96,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
