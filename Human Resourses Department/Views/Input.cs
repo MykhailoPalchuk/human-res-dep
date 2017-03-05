@@ -20,7 +20,7 @@ namespace Views
 
         public static bool IsAccountNumber(string input)
         {
-            string pattern = @"^[0-9]{16}$";
+            string pattern = @"^[1-9][0-9]{15}$";
             if (Regex.IsMatch(input, pattern, RegexOptions.Compiled))
                 return true;
             else

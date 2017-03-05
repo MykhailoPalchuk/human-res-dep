@@ -191,7 +191,7 @@ namespace Views
                 comboBoxPosition.BorderBrush = Brushes.Red;
                 flag = false;
             }
-            if (experienceTextBox.Text.Equals("") || Input.IsNumber(experienceTextBox.Text))
+            if (experienceTextBox.Text.Equals("") || !Input.IsNumber(experienceTextBox.Text))
             {
                 experienceTextBox.BorderBrush = Brushes.Red;
                 flag = false;
@@ -231,49 +231,47 @@ namespace Views
                     if (projectController.AddProject(projectNameTextBox.Text, cost))
                         projectAdded = true;
                 }
+
+                WorkerController workerController = new WorkerController();
+                if (workerId != 0)
+                {
+                    workerController.ChangeName(workerId, nameTextBox.Text);
+                    workerController.ChangeSurname(workerId, surnameTextBox.Text);
+                    workerController.ChangeAccountNumber(workerId, accountNumberTextBox.Text);
+                    workerController.ChangeDepartment(workerId, comboBoxDepartment.SelectedItem.ToString());
+                    workerController.ChangePosition(workerId, comboBoxPosition.SelectedItem.ToString());
+                    workerController.ChangeExperience(workerId, int.Parse(experienceTextBox.Text));
+                    workerController.AddProject(workerId, comboBoxProject.SelectedItem.ToString());
+                    MessageBox.Show("Changes saved", "Success");
+                    TableWindow parent = Owner as TableWindow;
+                    if (parent != null)
+                        parent.RefreshTable(sender, e);
+                    Close();
+                }
                 else
                 {
-                    WorkerController workerController = new WorkerController();
-                    if (workerId != 0)
+                    bool workerAdded = workerController.AddWorker(nameTextBox.Text, surnameTextBox.Text,
+                        accountNumberTextBox.Text, comboBoxDepartment.Text, comboBoxPosition.Text,
+                        int.Parse(experienceTextBox.Text), projectNameTextBox.Text);
+                    if (workerAdded && projectAdded)
                     {
-                        workerController.ChangeName(workerId, nameTextBox.Text);
-                        workerController.ChangeSurname(workerId, surnameTextBox.Text);
-                        workerController.ChangeAccountNumber(workerId, accountNumberTextBox.Text);
-                        workerController.ChangeDepartment(workerId, comboBoxDepartment.SelectedItem.ToString());
-                        workerController.ChangePosition(workerId, comboBoxPosition.SelectedItem.ToString());
-                        workerController.ChangeExperience(workerId, int.Parse(experienceTextBox.Text));
-                        workerController.AddProject(workerId, comboBoxProject.SelectedItem.ToString());
-                        MessageBox.Show("Changes saved", "Success");
+                        MessageBox.Show("Worker added successfully with a new project", "Success");
                         TableWindow parent = Owner as TableWindow;
-                        if(parent != null)
+                        if (parent != null)
+                            parent.RefreshTable(sender, e);
+                        Close();
+                    }
+                    else if (workerAdded && !projectAdded)
+                    {
+                        MessageBox.Show("Worker added successfully", "Success");
+                        TableWindow parent = Owner as TableWindow;
+                        if (parent != null)
                             parent.RefreshTable(sender, e);
                         Close();
                     }
                     else
                     {
-                        bool workerAdded = workerController.AddWorker(nameTextBox.Text, surnameTextBox.Text,
-                            accountNumberTextBox.Text, comboBoxDepartment.Text, comboBoxPosition.Text,
-                            int.Parse(experienceTextBox.Text), projectNameTextBox.Text);
-                        if (workerAdded && projectAdded)
-                        {
-                            MessageBox.Show("Worker added successfully with a new project", "Success");
-                            TableWindow parent = Owner as TableWindow;
-                            if (parent != null)
-                                parent.RefreshTable(sender, e);
-                            Close();
-                        }
-                        else if (workerAdded && !projectAdded)
-                        {
-                            MessageBox.Show("Worker added successfully", "Success");
-                            TableWindow parent = Owner as TableWindow;
-                            if (parent != null)
-                                parent.RefreshTable(sender, e);
-                            Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Something went wrong. Try again", "Error");
-                        }
+                        MessageBox.Show("Something went wrong. Try again", "Error");
                     }
                 }
             }
